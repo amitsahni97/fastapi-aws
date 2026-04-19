@@ -10,7 +10,11 @@ from .models import Dog, Comment, Post, Image, User, SessionLocal
 
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json"
+)
 
 app.add_middleware(
     CORSMiddleware,
