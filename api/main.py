@@ -11,12 +11,12 @@ from .models import Dog, Comment, Post, Image, User, SessionLocal
 
 load_dotenv()
 
-# app = FastAPI(
-#     docs_url=None,
-#     redoc_url=None,
-#     openapi_url="/openapi.json"
-# )
-app = FastAPI()
+app = FastAPI(
+    docs_url=None,
+    redoc_url=None,
+    openapi_url="/openapi.json"
+)
+# app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[os.getenv("API_URL"), "http://", "http://*ap-south*"],  # The default React port
@@ -77,6 +77,9 @@ app.include_router(posts.router)
 async def health_check():
     return {"Healthy": 200}
 
-# @app.get("/docs")
-# async def custom_docs():
-#     return get_swagger_ui_html(openapi_url="/openapi.json", title="API Docs")
+@app.get("/docs", include_in_schema=False)
+async def custom_docs():
+    return get_swagger_ui_html(
+        openapi_url="/openapi.json",
+        title="API Docs"
+    )
