@@ -19,10 +19,14 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("API_URL"),"https://backend.queuenahi.com"],  # The default React port
+    allow_origins=[
+        "https://queuenahi.com",
+        "https://backend.queuenahi.com",
+        os.getenv("API_URL")
+    ],
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"]
 )
 
 # Mount static files for Swagger UI
