@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.docs import get_swagger_ui_html
 from dotenv import load_dotenv
 import os
 from datetime import datetime, timezone
@@ -11,8 +12,8 @@ from .models import Dog, Comment, Post, Image, User, SessionLocal
 load_dotenv()
 
 app = FastAPI(
-    docs_url="/docs",
-    redoc_url="/redoc",
+    docs_url=None,
+    redoc_url=None,
     openapi_url="/openapi.json"
 )
 
@@ -75,3 +76,7 @@ app.include_router(posts.router)
 @app.get("/")
 async def health_check():
     return {"Healthy": 200}
+
+@app.get("/docs")
+async def custom_docs():
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="API Docs")
