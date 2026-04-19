@@ -19,13 +19,16 @@ app = FastAPI(
 )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("API_URL"), "http://", "http://*ap-south*"],  # The default React port
+    allow_origins=[os.getenv("API_URL"),"https://backend.queuenahi.com"],  # The default React port
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Mount static files for Swagger UI
+static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.post("/populate/")
 def populate_db():
