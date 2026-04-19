@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 import os
 from datetime import datetime, timezone
@@ -23,6 +24,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.post("/populate/")
 def populate_db():
@@ -81,6 +84,6 @@ async def custom_docs():
     return get_swagger_ui_html(
         openapi_url="/openapi.json",
         title="API Docs",
-        swagger_js_url="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js",
-        swagger_css_url="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css"
+        swagger_js_url="/static/swagger-ui/swagger-ui-bundle.js",
+        swagger_css_url="/static/swagger-ui/swagger-ui.css"
     )
