@@ -18,7 +18,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[os.getenv("API_URL")],  # The default React port
+    allow_origins=[os.getenv("API_URL"), "http://", "http://*ap-south*"],  # The default React port
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
